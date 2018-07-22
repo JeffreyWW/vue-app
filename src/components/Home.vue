@@ -1,26 +1,24 @@
 <template>
   <div>
-    <home-header></home-header>
-    <swiper id="notice" :options="swiperOption" ref="mySwiper" @someSwiperEvent="callback"
-            style="margin-left: 20px;margin-right: 20px;height: 55px">
-      <swiper-slide>
-        <p style="line-height: 55px;margin: 0;text-align: center">第一条消息</p>
-      </swiper-slide>
-      <swiper-slide>
-        <p style="line-height: 55px;margin: 0;text-align: center">第二条消息</p>
-      </swiper-slide>
-      <swiper-slide>
-        <p style="line-height: 55px;margin: 0;text-align: center">第三条消息</p>
-      </swiper-slide>
-    </swiper>
+    <div class="headerContainer">
+      <!--<mt-loadmore :top-method="loadTop" :bottom-method="loadBottom" :bottom-all-loaded="allLoaded" ref="loadmore" style="height: 300px; background-color: red">-->
+          <home-header></home-header>
+          <swiper class="notice" id="notice" :options="swiperOption" ref="mySwiper" @someSwiperEvent="callback"
+                  style="margin-left: 20px;margin-right: 20px;" :style="{height: noticeHeight}">
+            <swiper-slide v-for="(notice,index) in notices" :key="index">
+              <p style="margin: 0;text-align: center" :style="{lineHeight: noticeHeight}">{{notice.title}}</p>
+            </swiper-slide>
+          </swiper>
+      <!--</mt-loadmore>-->
+    </div>
+    <div class="banner">this place show banners</div>
   </div>
 </template>
 <script>
   import Vue from 'vue'
-  import {Header, Button, Swipe, SwipeItem} from "mint-ui";
+  import {Header, Button, Swipe, SwipeItem,Loadmore} from "mint-ui";
   import home_message from '@/assets/home_message.png'
   import head_male_small from '@/assets/head_male_small.png'
-
   //头部导航
   const header = {
     template: '<mt-header style="height: 64px;background-color: white" title="导航">\n' +
@@ -34,7 +32,7 @@
     data() {
       return {
         home_message: home_message,
-        head_male_small: head_male_small
+        head_male_small: head_male_small,
       }
     }
   };
@@ -43,24 +41,48 @@
   Vue.component(Swipe.name, Swipe);
   Vue.component(SwipeItem.name, SwipeItem);
   Vue.component('home-header', header);
-
-  export default {
+  Vue.component(Loadmore.name, Loadmore);
+  let homePage = {
     name: "Home",
     components: [],
+    methods: {
+      clickButton() {
+        this.notices.push({title:'fuckYou'})
+      },
+      loadTop() {
+        this.$refs.loadmore.onTopLoaded();
+      },
+      loadBottom() {
+        // this.allLoaded = true;// if all data are loaded
+        this.$refs.loadmore.onBottomLoaded();
+      },
+      // allLoaded() {
+      //
+      // }
+    },
     data() {
       return {
+        noticeHeight: '50px',
+        notices: [{title: 'fuck'},{title:'ok'}],
+        items: ['1','2'],
+        list: ['fuck', 'god'],
         swiperOption: {
           direction: 'vertical',
-          autoplay:{
+          autoplay: {
             disableOnInteraction: false
           },
-          loop:true,
+          loop: true,
         },
-        message: '',
-        input: ''
       }
     },
-  }
+  };
+  // let itemNew = {title: 'fuck'};
+  // homePage.notices.push({title: 'fuckYouHere'});
+  // homePage.items.push({title: 'what'});
+  // homePage.addItem();
+  // homePage.items.push('fuck');
+  export default homePage;
+
 </script>
 
 <style scoped>
