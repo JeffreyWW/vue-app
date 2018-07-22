@@ -2,12 +2,15 @@
   <div>
     <home-header></home-header>
     <swiper id="notice" :options="swiperOption" ref="mySwiper" @someSwiperEvent="callback"
-            style="height: 123px;margin-left: 20px;margin-right: 20px;">
+            style="margin-left: 20px;margin-right: 20px;height: 55px">
       <swiper-slide>
-        <div style="left: 0;right: 0;top: 0;bottom: 0;"><p style="text-align: center">第一条消息</p></div>
+        <p style="line-height: 55px;margin: 0;text-align: center">第一条消息</p>
       </swiper-slide>
       <swiper-slide>
-        <div style="left: 0;right: 0;top: 0;bottom: 0;"><p style="text-align: center">第二条消息</p></div>
+        <p style="line-height: 55px;margin: 0;text-align: center">第二条消息</p>
+      </swiper-slide>
+      <swiper-slide>
+        <p style="line-height: 55px;margin: 0;text-align: center">第三条消息</p>
       </swiper-slide>
     </swiper>
   </div>
@@ -47,7 +50,11 @@
     data() {
       return {
         swiperOption: {
-          direction: 'vertical'
+          direction: 'vertical',
+          autoplay:{
+            disableOnInteraction: false
+          },
+          loop:true,
         },
         message: '',
         input: ''
