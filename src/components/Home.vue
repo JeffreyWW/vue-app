@@ -1,7 +1,5 @@
 <template>
   <div>
-    <button @click="clickTest">测试按钮</button>
-    <p>{{testData}}</p>
     <div class="test"></div>
     <div class="headerContainer">
       <!--<mt-loadmore :top-method="loadTop" :bottom-method="loadBottom" :bottom-all-loaded="allLoaded" ref="loadmore" style="height: 300px; background-color: red">-->
@@ -14,25 +12,30 @@
         </swiper-slide>
       </swiper>
       <div class="productContainer" v-for="(product,index) in products" :key="index">
-        <!--<img src="../assets/home_back.png" style="width: 100%;"/>-->
         <span
           style="font-size: 16px;font-family: 'PingFangSC-Regular',cursive;font-weight: unset; margin-top: 22px;margin-left: 15px;display: inline-block;color: white">{{product.title}}</span>
         <span style="margin: 0;font-size: 14px;display: inline-block;color: white">{{'['+product.subTitle+']'}}</span>
         <p style="margin-top: 7px;margin-left:15px;margin-bottom:0;font-size: 25px;color: white;">{{product.desc}}</p>
         <span style="display: inline-block; margin-top: 5px;margin-left:15px;font-size: 13px;color: white;">{{product.subDesc}}</span>
-        <img :src="tan_hao" height="12" width="12" slot="icon" @click="clickTest">
-        <p
-          style="position: absolute;margin:0;text-align:center;line-height: 26px; bottom: 12px; right:12px; color: white;font-size: 15px;border: 1px solid white;border-radius: 11px;width: 112px;height:  26px">
+        <img :src="tan_hao" height="12" width="12" slot="icon" @click="clickCardBtn(index)">
+        <p @click="clickBtnBegin(index)"
+           style="position: absolute;margin:0;text-align:center;line-height: 26px; bottom: 12px; right:12px; color: white;font-size: 15px;border: 1px solid white;border-radius: 11px;width: 112px;height:  26px">
           开始申请</p>
       </div>
       <!--</mt-loadmore>-->
     </div>
-    <div class="banner" style="background-color: red">this place show banners</div>
+    <div class="banner" style="background-color: gray;margin: 0">这里准备做圆圈循环</div>
+    <mt-cell class="cell" is-link style="">
+      <span slot="title" style="background-color: white;margin: 0;line-height: 46px;">立即还款</span>
+    </mt-cell>
+    <mt-cell class="cell" is-link style="">
+      <span slot="title" style="background-color: white;margin: 0;line-height: 46px;">借还款记录</span>
+    </mt-cell>
   </div>
 </template>
 <script>
   import Vue from 'vue'
-  import {Header, Button, Swipe, SwipeItem, Loadmore} from "mint-ui";
+  import {Cell, Header, Button, Swipe, SwipeItem, Loadmore, Toast, MessageBox} from "mint-ui";
   import home_message from '@/assets/home_message.png'
   import head_male_small from '@/assets/head_male_small.png'
   import home_back from '@/assets/home_back.png'
@@ -61,16 +64,20 @@
   Vue.component(SwipeItem.name, SwipeItem);
   Vue.component('home-header', header);
   Vue.component(Loadmore.name, Loadmore);
+  Vue.component(Toast.name, Toast);
+  Vue.component(MessageBox.name, MessageBox);
+  Vue.component(Cell.name, Cell);
   let homePage = {
     name: "Home",
     components: [],
     methods: {
-      clickTest() {
-        this.testData = "fuck";
-        this.testData = String(this.$refs.card.height);
+      clickCardBtn(index) {
+        MessageBox('提示', '这是' + index + '条信息');
+
       },
-      clickButton() {
-        this.notices.push({title: 'fuckYou'})
+      clickBtnBegin(index) {
+        Toast('点击了下标是' + index + '的申请按钮');
+
       },
       loadTop() {
         this.$refs.loadmore.onTopLoaded();
@@ -91,7 +98,7 @@
         home_back: home_back,
         noticeHeight: '36px',
         testData: 'good',
-        notices: [{title: 'fuck'}, {title: 'ok'}],
+        notices: [{title: '第一条消息'}, {title: '第二条消息'}],
         products: [
           {title: '极速普惠', subTitle: '极速申请,自动审核', desc: '额度高至3万元', subDesc: '快至5分钟下款,日息低至5%'},
           {title: '大额通道', subTitle: '专人服务,申请无忧', desc: '额度高至20万元', subDesc: '日息低至3%'},
