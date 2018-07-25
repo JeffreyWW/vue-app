@@ -1,37 +1,50 @@
 <template>
-  <div>
-    <div class="test"></div>
-    <div class="headerContainer">
-      <!--<mt-loadmore :top-method="loadTop" :bottom-method="loadBottom" :bottom-all-loaded="allLoaded" ref="loadmore" style="height: 300px; background-color: red">-->
-      <home-header></home-header>
-      <swiper class="notice" id="notice" :options="swiperOption" @someSwiperEvent="callback"
-              style="margin-left: 20px;margin-right: 20px;" :style="{height: noticeHeight}">
-        <swiper-slide v-for="(notice,index) in notices" :key="index">
-          <p style=" margin: 0;text-align: center;font-size: 22px;color: #495769;"
-             :style="{lineHeight: noticeHeight}">{{notice.title}}</p>
-        </swiper-slide>
-      </swiper>
-      <div class="productContainer" v-for="(product,index) in products" :key="index">
+  <mt-loadmore :top-method="loadTop" :bottom-all-loaded="allLoaded" ref="loadmore" style="background-color: red">
+    <div style="background-color: white">
+      <div class="headerContainer">
+        <home-header></home-header>
+        <div id="noticeContainer" style="position: relative;margin-left: 20px;margin-right: 20px;">
+          <swiper class="notice" id="notice" :options="swiperOption" @someSwiperEvent="callback"
+                  style="" :style="{height: noticeHeight}">
+            <swiper-slide v-for="(notice,index) in notices" :key="index">
+              <p style=" margin-left: 45px;margin-top: 0;margin-bottom:0;font-size: 11px;color: #495769;"
+                 :style="{lineHeight: noticeHeight}">{{notice.title}}</p>
+            </swiper-slide>
+          </swiper>
+          <img :src="laba" height="16" width="14" style="position: absolute;top: 0;bottom: 0;margin: auto;left: 20px">
+          <!--<p style="position: absolute;left: 0;top: 0;margin: 0">11111</p>-->
+        </div>
+        <div class="productContainer" v-for="(product,index) in products" :key="index">
         <span
           style="font-size: 16px;font-family: 'PingFangSC-Regular',cursive;font-weight: unset; margin-top: 22px;margin-left: 15px;display: inline-block;color: white">{{product.title}}</span>
-        <span style="margin: 0;font-size: 14px;display: inline-block;color: white">{{'['+product.subTitle+']'}}</span>
-        <p style="margin-top: 7px;margin-left:15px;margin-bottom:0;font-size: 25px;color: white;">{{product.desc}}</p>
-        <span style="display: inline-block; margin-top: 5px;margin-left:15px;font-size: 13px;color: white;">{{product.subDesc}}</span>
-        <img :src="tan_hao" height="12" width="12" slot="icon" @click="clickCardBtn(index)">
-        <p @click="clickBtnBegin(index)"
-           style="position: absolute;margin:0;text-align:center;line-height: 26px; bottom: 12px; right:12px; color: white;font-size: 15px;border: 1px solid white;border-radius: 11px;width: 112px;height:  26px">
-          开始申请</p>
+          <span style="margin: 0;font-size: 14px;display: inline-block;color: white">{{'['+product.subTitle+']'}}</span>
+          <p style="margin-top: 7px;margin-left:15px;margin-bottom:0;font-size: 25px;color: white;">{{product.desc}}</p>
+          <span style="display: inline-block; margin-top: 5px;margin-left:15px;font-size: 13px;color: white;">{{product.subDesc}}</span>
+          <img :src="tan_hao" height="12" width="12" slot="icon" @click="clickCardBtn(index)">
+          <p @click="clickBtnBegin(index)"
+             style="position: absolute;margin:0;text-align:center;line-height: 26px; bottom: 12px; right:12px; color: white;font-size: 15px;border: 1px solid white;border-radius: 11px;width: 112px;height:  26px">
+            开始申请</p>
+        </div>
       </div>
-      <!--</mt-loadmore>-->
+      <div class="bottom" style="position: relative">
+        <div
+          style="border: solid white;border-radius: 10px 10px 16px 16px;overflow: hidden;z-index: 2;position: relative;">
+          <mt-cell class="cell" is-link style="">
+            <span slot="title" style="background-color: white;margin: 0;line-height: 46px;">立即还款</span>
+          </mt-cell>
+          <mt-cell class="cell" is-link style="">
+            <span slot="title" style="background-color: white;margin: 0;line-height: 46px;">借还款记录</span>
+          </mt-cell>
+        </div>
+        <swiper ref="banner" class="banner" :options="swiperOptionBanner" style="margin-top: -30px;z-index: 1">
+          <swiper-slide>
+            <img :src="banner" width="100%">
+          </swiper-slide>
+          <div class="swiper-pagination" slot="pagination"></div>
+        </swiper>
+      </div>
     </div>
-    <div class="banner" style="background-color: gray;margin: 0">这里准备做圆圈循环</div>
-    <mt-cell class="cell" is-link style="">
-      <span slot="title" style="background-color: white;margin: 0;line-height: 46px;">立即还款</span>
-    </mt-cell>
-    <mt-cell class="cell" is-link style="">
-      <span slot="title" style="background-color: white;margin: 0;line-height: 46px;">借还款记录</span>
-    </mt-cell>
-  </div>
+  </mt-loadmore>
 </template>
 <script>
   import Vue from 'vue'
@@ -40,9 +53,11 @@
   import head_male_small from '@/assets/head_male_small.png'
   import home_back from '@/assets/home_back.png'
   import tan_hao from '@/assets/tan_hao.png'
+  import banner from '@/assets/banner.png'
+  import laba from '@/assets/laba.png'
   //头部导航
   const header = {
-    template: '<mt-header style="height: 64px;background-color: white" title="导航">\n' +
+    template: '<mt-header style="height: 64px;background-color: white">\n' +
     '      <mt-button slot="right">\n' +
     '        <img :src="home_message" height="17" width="21" slot="icon">\n' +
     '      </mt-button>\n' +
@@ -72,19 +87,22 @@
     components: [],
     methods: {
       clickCardBtn(index) {
-        MessageBox('提示', '这是' + index + '条信息');
-
+        let product = this.products[index];
+        MessageBox(product.subDesc);
       },
       clickBtnBegin(index) {
-        Toast('点击了下标是' + index + '的申请按钮');
-
+        // Toast('点击了下标是' + index + '的申请按钮');
+        this.$http.get('https://www.duowan.com').then(response => {
+          // get body data
+          alert('成功');
+        }, response => {
+          alert('失败');
+          // error callback
+        });
       },
       loadTop() {
-        this.$refs.loadmore.onTopLoaded();
-      },
-      loadBottom() {
-        // this.allLoaded = true;// if all data are loaded
-        this.$refs.loadmore.onBottomLoaded();
+
+        // this.$refs.loadmore.onTopLoaded();
       },
       // allLoaded() {
       //
@@ -92,11 +110,10 @@
     },
     data() {
       return {
+        banner: banner,
         tan_hao: tan_hao,
-        home_message: home_message,
-        head_male_small: head_male_small,
-        home_back: home_back,
-        noticeHeight: '36px',
+        laba: laba,
+        noticeHeight: '30px',
         testData: 'good',
         notices: [{title: '第一条消息'}, {title: '第二条消息'}],
         products: [
@@ -110,8 +127,20 @@
           autoplay: {
             disableOnInteraction: false
           },
+
           loop: true,
         },
+        swiperOptionBanner: {
+          autoplay: {
+            disableOnInteraction: false
+          },
+          pagination: {
+            el: '.swiper-pagination',
+            clickable: true,
+          },
+          loop: true,
+        }
+
       }
     },
   };
@@ -157,4 +186,5 @@
   /*padding-top: 42.8%;*/
   /*background-color: red;*/
   /*}*/
+
 </style>
