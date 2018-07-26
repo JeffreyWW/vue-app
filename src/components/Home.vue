@@ -91,17 +91,13 @@
         MessageBox(product.subDesc);
       },
       clickBtnBegin(index) {
-        // Toast('点击了下标是' + index + '的申请按钮');
-        this.$http.get('https://www.duowan.com').then(response => {
-          // get body data
-          alert('成功');
-        }, response => {
-          alert('失败');
-          // error callback
+        this.axios.get('#/test').then((response) => {
+          alert(response.data);
+        }, err => {
+          alert(err);
         });
       },
       loadTop() {
-
         // this.$refs.loadmore.onTopLoaded();
       },
       // allLoaded() {
