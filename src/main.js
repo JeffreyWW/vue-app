@@ -8,6 +8,7 @@ import 'mint-ui/lib/style.css'
 import 'swiper/dist/css/swiper.css'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
+import './mock.js'
 
 Vue.use(VueAwesomeSwiper);
 Vue.use(VueAxios, axios);

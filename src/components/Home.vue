@@ -91,8 +91,8 @@
         MessageBox(product.subDesc);
       },
       clickBtnBegin(index) {
-        this.axios.get('#/test').then((response) => {
-          alert(response.data);
+        this.axios.get('ttt').then((response) => {
+          alert(response.data.name);
         }, err => {
           alert(err);
         });
