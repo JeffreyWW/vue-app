@@ -1,9 +1,10 @@
 <template>
-  <mt-loadmore :top-method="loadTop" :bottom-all-loaded="allLoaded" ref="loadmore" style="background-color: red">
+  <mt-loadmore :top-method="loadTop" :bottom-all-loaded="allLoaded" ref="loadmore">
     <div style="background-color: white">
       <div class="headerContainer">
         <home-header></home-header>
-        <div id="noticeContainer" style="position: relative;margin-left: 20px;margin-right: 20px;">
+        <div id="noticeContainer" style="position: relative;margin-left: 20px;margin-right: 20px;"
+             v-if="notices.length>0">
           <swiper class="notice" id="notice" :options="swiperOption" @someSwiperEvent="callback"
                   style="" :style="{height: noticeHeight}">
             <swiper-slide v-for="(notice,index) in notices" :key="index">
@@ -15,15 +16,18 @@
           <!--<p style="position: absolute;left: 0;top: 0;margin: 0">11111</p>-->
         </div>
         <div class="productContainer" v-for="(product,index) in products" :key="index">
-        <span
-          style="font-size: 16px;font-family: 'PingFangSC-Regular',cursive;font-weight: unset; margin-top: 22px;margin-left: 15px;display: inline-block;color: white">{{product.title}}</span>
-          <span style="margin: 0;font-size: 14px;display: inline-block;color: white">{{'['+product.subTitle+']'}}</span>
-          <p style="margin-top: 7px;margin-left:15px;margin-bottom:0;font-size: 25px;color: white;">{{product.desc}}</p>
-          <span style="display: inline-block; margin-top: 5px;margin-left:15px;font-size: 13px;color: white;">{{product.subDesc}}</span>
-          <img :src="tan_hao" height="12" width="12" slot="icon" @click="clickCardBtn(index)">
-          <p @click="clickBtnBegin(index)"
-             style="position: absolute;margin:0;text-align:center;line-height: 26px; bottom: 12px; right:12px; color: white;font-size: 15px;border: 1px solid white;border-radius: 11px;width: 112px;height:  26px">
-            开始申请</p>
+          <div class="productContent" v-if="product.show">
+             <span
+               style="font-size: 16px;font-family: 'PingFangSC-Regular',cursive;font-weight: unset; margin-top: 22px;margin-left: 15px;display: inline-block;color: white">{{product.title}}</span>
+            <span style="margin: 0;font-size: 14px;display: inline-block;color: white">{{product.subTitle}}</span>
+            <p style="margin-top: 7px;margin-left:15px;margin-bottom:0;font-size: 25px;color: white;">
+              {{product.desc}}</p>
+            <span style="display: inline-block; margin-top: 5px;margin-left:15px;font-size: 13px;color: white;">{{product.subDesc}}</span>
+            <img :src="tan_hao" height="12" width="12" slot="icon" @click="clickCardBtn(index)" v-if="product.tan">
+            <p @click="clickBtnBegin(index)"
+               style="position: absolute;margin:0;text-align:center;line-height: 26px; bottom: 12px; right:12px; color: white;font-size: 15px;border: 1px solid white;border-radius: 11px;width: 112px;height:  26px">
+              开始申请</p>
+          </div>
         </div>
       </div>
       <div class="bottom" style="position: relative">
@@ -91,14 +95,17 @@
         MessageBox(product.subDesc);
       },
       clickBtnBegin(index) {
+
+      },
+      loadTop() {
         this.axios.get('ttt').then((response) => {
-          alert(response.data.name);
+          this.products = response.data.products;
+          this.notices = response.data.notices;
+          this.$refs.loadmore.onTopLoaded();
+
         }, err => {
           alert(err);
         });
-      },
-      loadTop() {
-        // this.$refs.loadmore.onTopLoaded();
       },
       // allLoaded() {
       //
@@ -111,10 +118,10 @@
         laba: laba,
         noticeHeight: '30px',
         testData: 'good',
-        notices: [{title: '第一条消息'}, {title: '第二条消息'}],
+        notices: [],
         products: [
-          {title: '极速普惠', subTitle: '极速申请,自动审核', desc: '额度高至3万元', subDesc: '快至5分钟下款,日息低至5%'},
-          {title: '大额通道', subTitle: '专人服务,申请无忧', desc: '额度高至20万元', subDesc: '日息低至3%'},
+          {show: false},
+          {show: false}
         ],
         items: ['1', '2'],
         list: ['fuck', 'god'],
@@ -140,11 +147,6 @@
       }
     },
   };
-  // let itemNew = {title: 'fuck'};
-  // homePage.notices.push({title: 'fuckYouHere'});
-  // homePage.items.push({title: 'what'});
-  // homePage.addItem();
-  // homePage.items.push('fuck');
   export default homePage;
 
 </script>
