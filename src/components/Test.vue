@@ -1,11 +1,21 @@
 <template>
-  <p>p1121212121</p>
+  <button @click="clickMe">点我</button>
 </template>
 
 <script>
-    export default {
-        name: "Test"
+  export default {
+    name: "Test",
+    methods: {
+      clickMe() {
+        share("fuck");
+        // testT();
+      }
+
+    },
+    data() {
+
     }
+  }
 </script>
 
 <style scoped>
