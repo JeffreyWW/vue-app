@@ -94,3 +94,16 @@ function sendResponseToApp(method, data, responseCallback) {
   sendResponseToAppiOS(responseWebToApp, responseCallback);
   sendResponseToAppAndroid(method, data, responseCallback);
 }
+
+
+//如果data是用对象,则直接用此方法即可,比上面的不带"New"方法简单一些
+function sendResponseToAppNew(method, data, responseCallback) {
+  var jsonStringData = JSON.stringify(data);
+  var responseWebToApp = {
+    method: method,
+    //如果传入的是对象,则直接转成json字符串,安卓才能正确接收
+    data: jsonStringData
+  };
+  sendResponseToAppiOS(responseWebToApp, responseCallback);
+  sendResponseToAppAndroid(method, jsonStringData, responseCallback);
+}

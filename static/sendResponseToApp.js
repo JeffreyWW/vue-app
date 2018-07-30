@@ -8,15 +8,16 @@ function printInApp(printString) {
 
 
 /**点击按钮弹出分享页面*/
-function share(printString) {
-  alert("printString");
+function share(url, imageUrl, title, description) {
   /**目前app用枚举方便,也可以定制字符串来做*/
   var method = 4;
-  /* var data = {
-       "shareUrl": "http://www.baidu.com",
-       "shareImage": "http://www.baidu.com/xxx.jpg"
-   };*/
-  sendResponseToApp(method, printString);
+  var data = {
+    "url": url,
+    "imageUrl": imageUrl,
+    "title": title,
+    "description": description,
+  };
+  sendResponseToAppNew(method, data);
 }
 
 
