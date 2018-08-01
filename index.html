@@ -5,7 +5,12 @@
   <meta name="viewport" content="width=device-width,initial-scale=1.0">
   <title>信富优贷</title>
   <script type="text/javascript" src="/static/webBridge.js"></script>
-  <script type="text/javascript" src="/static/callBackForApp.js"></script>
+  <script>
+    function shareFinished(data) {
+      alert(data.message)
+    }
+  </script>
+  <!--<script type="text/javascript" src="/static/callBackForApp.js"></script>-->
 </head>
 <body style="margin: 0;padding: 0">
 <p>信富优贷</p>
